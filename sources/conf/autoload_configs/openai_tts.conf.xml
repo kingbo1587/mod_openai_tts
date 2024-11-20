@@ -18,7 +18,7 @@
         <param name="cache-enable" value="false" />
 
         <!-- service settings -->
-        <param name="encoding" value="mp3" />
+        <param name="encoding" value="wav" />
         <param name="voice-name-as-language" value="true" />
     </settings>
 
