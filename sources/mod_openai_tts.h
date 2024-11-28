@@ -46,6 +46,9 @@ typedef struct {
     char                    *alt_voice;
     char                    *alt_model;
     char                    *dst_file;
+    char                    *session_uuid;
+    char                    *caller_no;
+    char                    *dest_no;
     uint32_t                samplerate;
     uint32_t                channels;
     size_t                  curl_send_buffer_len;

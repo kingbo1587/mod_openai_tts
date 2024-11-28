@@ -156,16 +156,23 @@ static switch_status_t curl_perform(tts_ctx_t *tts_ctx, char *text) {
     long http_resp = 0;
     const char *voice_local = (tts_ctx->alt_voice ? tts_ctx->alt_voice : tts_ctx->model_info->voice);
     const char *model_local = (tts_ctx->alt_model ? tts_ctx->alt_model : tts_ctx->model_info->model);
+    const char *session_uuid_local = (tts_ctx->session_uuid ? tts_ctx->session_uuid : "");
+    const char *caller_no_local = (tts_ctx->caller_no ? tts_ctx->caller_no : "");
+    const char *dest_no_local = (tts_ctx->dest_no ? tts_ctx->dest_no : "");
     char *pdata = NULL;
     char *qtext = NULL;
+
 
     if(text) {
         qtext = escape_dquotes(text);
     }
-    pdata = switch_mprintf("{\"model\":\"%s\",\"voice\":\"%s\",\"input\":\"%s\"}\n",
+    pdata = switch_mprintf("{\"model\":\"%s\",\"voice\":\"%s\",\"input\":\"%s\",\"session_uuid\":\"%s\",\"caller_no\":\"%s\",\"dest_no\":\"%s\"}\n",
                            model_local,
                            voice_local,
-                           qtext ? qtext : ""
+                           qtext ? qtext : "",
+                           session_uuid_local,
+                           caller_no_local,
+                           dest_no_local
             );
 
 #ifdef OAITTS_DEBUG
@@ -413,6 +420,12 @@ static void speech_text_param_tts(switch_speech_handle_t *sh, char *param, const
         if(val) {  tts_ctx->alt_voice = switch_core_strdup(sh->memory_pool, val); }
     } else  if(strcasecmp(param, "model") == 0) {
         if(val) {  tts_ctx->alt_model = switch_core_strdup(sh->memory_pool, val); }
+    } else  if(strcasecmp(param, "session_uuid") == 0) {
+        if(val) {  tts_ctx->session_uuid = switch_core_strdup(sh->memory_pool, val); }
+    } else  if(strcasecmp(param, "caller_no") == 0) {
+        if(val) {  tts_ctx->caller_no = switch_core_strdup(sh->memory_pool, val); }
+    } else  if(strcasecmp(param, "dest_no") == 0) {
+        if(val) {  tts_ctx->dest_no = switch_core_strdup(sh->memory_pool, val); }
     }
 }
 
